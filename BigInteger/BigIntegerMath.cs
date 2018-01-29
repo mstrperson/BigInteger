@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BigInteger
 {
-    public partial class Math
+    public partial class BigInteger
     {
         /// <summary>
         /// Average a list of BigIntegers.
