@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BigInteger
 {
-    public class BigInteger
+    public class BigInteger : IComparable<BigInteger>
     {
         public static String NUMERALS = "0123456789ABCDEF";
 
@@ -14,7 +14,7 @@ namespace BigInteger
         /// Value represents the digits of this big integer in reverse-from-printing
         /// order so that the place value exponent is indicated by the index in the char array.
         /// </summary>
-        protected char[] Value;
+        protected List<char> Value;
         public int Base { get; protected set; }
 
         /// <summary>
@@ -27,6 +27,15 @@ namespace BigInteger
         public override string ToString()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Default contructor returns zero base 10.
+        /// </summary>
+        public BigInteger()
+        {
+            Value = new List<Char>() { '0' };
+            Base = 10;
         }
 
         /// <summary>
@@ -61,6 +70,16 @@ namespace BigInteger
         }
 
         /// <summary>
+        /// Implement the Comparable Interface for BigIntegers.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        int IComparable<BigInteger>.CompareTo(BigInteger other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Complete the Increment Opperator for BigIntegers.
         /// Recall the Increment Operator means Add 1 to 'a'
         /// 
@@ -70,9 +89,21 @@ namespace BigInteger
         /// <returns>a=a+1</returns>
         public static BigInteger operator ++(BigInteger a)
         {
-            return a;
+            return new BigInteger();
         }
 
+        /// <summary>
+        /// Complete the Decrement Opperator for BigIntegers.
+        /// Recall the decrement Operator means subract 1 to 'a'
+        /// 
+        /// This is an Easy achievement.
+        /// </summary>
+        /// <param name="a">BigInteger to be decremented.</param>
+        /// <returns>a=a-1</returns>
+        public static BigInteger operator --(BigInteger a)
+        {
+            return new BigInteger();
+        }
 
         /// <summary>
         /// Complete the Addition operator for BigIntegers a and b.
@@ -86,7 +117,7 @@ namespace BigInteger
         /// <returns>a+b</returns>
         public static BigInteger operator +(BigInteger a, BigInteger b)
         {
-            if(a.Base == b.Base)
+            if (a.Base == b.Base)
             {
                 // this is a Moderate Achievement.
             }
@@ -95,7 +126,177 @@ namespace BigInteger
                 // This can be Easy or Hard depending on how you approach it!
             }
 
-            return a;
+            return new BigInteger();
+        }
+
+        /// <summary>
+        /// Complete the Subtraction operator for BigIntegers a and b.
+        /// Remember, that a and b may be represented in different bases!
+        /// 
+        /// This is a Moderate achievement, which contains a secondary achievement.
+        /// Be clever!
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>a-b</returns>
+        public static BigInteger operator -(BigInteger a, BigInteger b)
+        {
+            if (a.Base == b.Base)
+            {
+                // this is a Moderate Achievement.
+            }
+            else
+            {
+                // This can be Easy or Hard depending on how you approach it!
+            }
+
+            return new BigInteger();
+        }
+
+        /// <summary>
+        /// Complete the Multiplcation Operator for BigIntegers.
+        /// 
+        /// There are many ways to approach this, and there are varying degrees of efficiency.
+        /// Can you solve this problem by mimicing a multiplication algorithm that you learned in Elementary School?
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger operator *(BigInteger a, BigInteger b)
+        {
+            if (a.Base == b.Base)
+            {
+                // this is a Hard Achievement if you seek the most efficient algorithm.
+                // Some choices of algorithm may only be an Easy achievement.
+            }
+            else
+            {
+                // This can be Easy or Hard depending on how you approach it!
+            }
+
+            return new BigInteger();
+        }
+
+        /// <summary>
+        /// Complete the Integer Division Operator for BigIntegers.
+        /// 
+        /// this is a Very Hard Achievement if you seek the most efficient algorithm.  
+        /// It may be an Easy Achievement if you choose an inefficient algorithm.
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>a / b</returns>
+        public static BigInteger operator /(BigInteger a, BigInteger b)
+        {
+
+            return new BigInteger();
+        }
+
+        /// <summary>
+        /// Complete the Modulo operator for BigIntegers.
+        /// 
+        /// This may be a Very Hard achievement if you seek the most efficient algorithm,
+        /// or it may be a very easy achievement if you choose a clever algorithm and solve a different problem
+        /// or it may be an easy achievement if you choose an inefficient algorithm.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static BigInteger operator %(BigInteger a, BigInteger b)
+        {
+
+            return new BigInteger();
+        }
+
+
+        /// <summary>
+        /// Complete the Less-Than operator for Big Integers
+        /// 
+        /// This is a moderate achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator <(BigInteger a, BigInteger b)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Complete the greater-Than operator for Big Integers
+        /// 
+        /// This is a moderate achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator >(BigInteger a, BigInteger b)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Complete the less than or equal operator for Big Integers
+        /// 
+        /// This is a moderate achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator <=(BigInteger a, BigInteger b)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Complete the >= operator for Big Integers
+        /// 
+        /// This is a moderate achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator >=(BigInteger a, BigInteger b)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Complete the Equal operator for Big Integers
+        /// This operator should be Base Agnostic.
+        /// (e.g. 17(base10) == 11(base16) should be true.
+        /// 
+        /// This is a moderate achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(BigInteger a, BigInteger b)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Complete the Not Equal operator for Big Integers
+        /// This operator should be Base Agnostic.
+        /// (e.g. 17(base10) == 11(base16) should be true.
+        /// 
+        /// This is a Easy achievement.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(BigInteger a, BigInteger b)
+        {
+
+            return false;
         }
     }
 }
