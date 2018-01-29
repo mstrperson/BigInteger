@@ -21,7 +21,6 @@ namespace BigInteger
         /// </summary>
         public static void CalculateExecutionTime()
         {
-            BigInteger.
 
         }
     }

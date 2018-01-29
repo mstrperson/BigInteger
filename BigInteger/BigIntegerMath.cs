@@ -57,11 +57,44 @@ namespace BigInteger
             return new BigInteger();
         }
 
+        /// <summary>
+        /// Determine if the number is even.
+        /// 
+        /// Easy
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static bool IsEven(BigInteger a)
+        {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determine if a = b (mod n)
+        /// congruence mod n.
+        /// This may require a little research into Algebra.
+        /// 
+        /// Easy achievement.
+        /// Moderate achievement, if you write an explanation of Congruence Mod N.
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// 
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static bool IsCongruentModN(BigInteger a, BigInteger b, BigInteger n)
+        {
+
+            return false;
+        }
 
         /// <summary>
         /// determine if the given BigInteger is Prime.
         /// 
-        /// This is a Hard achievement to achieve better than O(sqrt(n)) efficiency.
+        /// 
+        /// This is a Hard achievement to achieve O(sqrt(n)) efficiency.
+        /// It is Very Hard to achieve better than that.
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
