@@ -89,6 +89,8 @@ namespace BigInteger
         /// <returns>a=a+1</returns>
         public static BigInteger operator ++(BigInteger a)
         {
+            a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+
             return new BigInteger();
         }
 
