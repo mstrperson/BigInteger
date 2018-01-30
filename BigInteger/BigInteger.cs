@@ -54,7 +54,6 @@ namespace BigInteger
         public BigInteger(String stringRepresentation, int number_base = 10)
         {
             Base = number_base;
-            // TODO: Write the constructor.
         }
 
         /// <summary>
@@ -79,6 +78,12 @@ namespace BigInteger
             throw new NotImplementedException();
         }
 
+        #region Automatically Generated methods.
+        /// <summary>
+        /// This method was automatically generated.  Ignore it for now.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             var integer = obj as BigInteger;
@@ -87,6 +92,10 @@ namespace BigInteger
                    Base == integer.Base;
         }
 
+        /// <summary>
+        /// This method was automatically generated.  Ignore it.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = 826626034;
@@ -94,6 +103,7 @@ namespace BigInteger
             hashCode = hashCode * -1521134295 + Base.GetHashCode();
             return hashCode;
         }
+        #endregion
 
         /// <summary>
         /// Complete the Increment Opperator for BigIntegers.
