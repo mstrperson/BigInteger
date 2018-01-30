@@ -145,7 +145,11 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                // NOTE that this depends on writing the ++ operator and the < operator!
+                for(BigInteger i = new BigInteger(); i < b; i++)
+                {
+                    a++;
+                }
             }
             else
             {
@@ -169,7 +173,11 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                // NOTE that this depends on writing the ++ operator and the < operator!
+                for (BigInteger i = new BigInteger(); i < b; i++)
+                {
+                    a--;
+                }
             }
             else
             {
@@ -193,8 +201,11 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Hard Achievement if you seek the most efficient algorithm.
-                // Some choices of algorithm may only be an Easy achievement.
+                // NOTE that this depends on writing the ++ operator and the < operator!
+                for (BigInteger i = new BigInteger(); i < b; i++)
+                {
+                    a = a + a;
+                }
             }
             else
             {
@@ -216,6 +227,7 @@ namespace BigInteger
         /// <returns>a / b</returns>
         public static BigInteger operator /(BigInteger a, BigInteger b)
         {
+            // There is no stupid easy solution to this one.
 
             return new BigInteger();
         }
@@ -247,6 +259,14 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator <(BigInteger a, BigInteger b)
         {
+            // **** NOTE:  THIS CODE DOES NOT TAKE BASES INTO ACCOUNT
+
+            // if a has more digits, it is larger.
+            if (a.Value.Count > b.Value.Count) return false;
+            // if a has fewer digits it is smaller.
+            else if (a.Value.Count < b.Value.Count) return true;
+
+            //TODO: What if the two have the same number of digits?  How will you compare the two numbers.
 
             return false;
         }
@@ -261,6 +281,14 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator >(BigInteger a, BigInteger b)
         {
+            // **** NOTE:  THIS CODE DOES NOT TAKE BASES INTO ACCOUNT
+
+            // if a has more digits, it is larger.
+            if (a.Value.Count > b.Value.Count) return true;
+            // if a has fewer digits it is smaller.
+            else if (a.Value.Count < b.Value.Count) return false;
+
+            //TODO: What if the two have the same number of digits?  How will you compare the two numbers.
 
             return false;
         }
@@ -275,6 +303,7 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator <=(BigInteger a, BigInteger b)
         {
+            if (a == b || a < b) return true;
 
             return false;
         }
@@ -289,6 +318,7 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator >=(BigInteger a, BigInteger b)
         {
+            if (a == b || a > b) return true;
 
             return false;
         }
@@ -321,8 +351,7 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator !=(BigInteger a, BigInteger b)
         {
-
-            return false;
+            return !(a == b);
         }
     }
 }
