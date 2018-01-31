@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BigInteger
 {
-    public class BigInteger : IComparable<BigInteger>
+    public partial class BigInteger : IComparable<BigInteger>
     {
         public static String NUMERALS = "0123456789ABCDEF";
 
@@ -17,6 +17,8 @@ namespace BigInteger
         protected List<char> Value;
         public int Base { get; protected set; }
 
+
+
         /// <summary>
         /// Use a Loop to recombine the chars from the Value property to print the
         /// Big integer in human readable form. 
@@ -26,7 +28,13 @@ namespace BigInteger
         /// <returns></returns>
         public override string ToString()
         {
-            throw new NotImplementedException();
+            String a = "";
+            for (int i = Value.Count() - 1; i > -1; i-- )
+            {
+                a += Value[i];
+            }
+
+            return a;
         }
 
         /// <summary>
@@ -54,7 +62,7 @@ namespace BigInteger
         public BigInteger(String stringRepresentation, int number_base = 10)
         {
             Base = number_base;
-            // TODO: Write the constructor.
+            Value = stringRepresentation.Reverse().ToList();
         }
 
         /// <summary>
@@ -89,9 +97,21 @@ namespace BigInteger
         /// <returns>a=a+1</returns>
         public static BigInteger operator ++(BigInteger a)
         {
-            a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+            for (int i = 0; i < a.Value.Count() && a.Value[i]==0; i++)
+            {
+				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
+				{
+					a.Value[i] = '0';
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
 
-            return new BigInteger();
+				}
+				else
+				{
+					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+				}
+            }
+
+            return a;
         }
 
         /// <summary>
@@ -104,7 +124,21 @@ namespace BigInteger
         /// <returns>a=a-1</returns>
         public static BigInteger operator --(BigInteger a)
         {
-            return new BigInteger();
+			for (int i = 0; i < a.Value.Count() && a.Value[i] == 9; i++)
+			{
+				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
+				{
+					a.Value[i] = '0';
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
+
+				}
+				else
+				{
+					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+				}
+			}
+
+            return a;
         }
 
         /// <summary>
