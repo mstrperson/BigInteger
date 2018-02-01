@@ -87,6 +87,33 @@ namespace BigInteger
             throw new NotImplementedException();
         }
 
+        #region Automatically Generated methods.
+        /// <summary>
+        /// This method was automatically generated.  Ignore it for now.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            var integer = obj as BigInteger;
+            return integer != null &&
+                   EqualityComparer<List<char>>.Default.Equals(Value, integer.Value) &&
+                   Base == integer.Base;
+        }
+
+        /// <summary>
+        /// This method was automatically generated.  Ignore it.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            var hashCode = 826626034;
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<char>>.Default.GetHashCode(Value);
+            hashCode = hashCode * -1521134295 + Base.GetHashCode();
+            return hashCode;
+        }
+        #endregion
+
         /// <summary>
         /// Complete the Increment Opperator for BigIntegers.
         /// Recall the Increment Operator means Add 1 to 'a'
