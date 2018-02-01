@@ -97,19 +97,29 @@ namespace BigInteger
         /// <returns>a=a+1</returns>
         public static BigInteger operator ++(BigInteger a)
         {
-            for (int i = 0; i < a.Value.Count() && a.Value[i]==0; i++)
+            // Note from Cox:  So we have to restructure this loop just a little bit because of the way
+            // for loops work.  It checks the condition before ever executing, so it is never executing right now.
+            int i = 0;
+
+            // Using a do-while loop here, ensures that the loop executes at least once (so if no carrying is necessary, it still runs.)
+            do 
             {
-				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
+				if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
 				{
 					a.Value[i] = '0';
-					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
+                    // This gets handled by the next itteration of the loop. so this line isn't needed.
+					//a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
 
 				}
 				else
 				{
-					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
 				}
-            }
+
+                // since we're not in a for loop anymore, we have to do the increment inside the method.
+                i++;
+            } while (i < a.Value.Count() && a.Value[i-1] == '0');  
+            // and because the i has already been incremented, we have to put a i-1 in the Value[] to look back and what we just changed
 
             return a;
         }
@@ -124,6 +134,9 @@ namespace BigInteger
         /// <returns>a=a-1</returns>
         public static BigInteger operator --(BigInteger a)
         {
+
+            // See if you can make this method look just like the ++ method.
+
 			for (int i = 0; i < a.Value.Count() && a.Value[i] == 9; i++)
 			{
 				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)

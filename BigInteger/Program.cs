@@ -10,7 +10,7 @@ namespace BigInteger
     {
         static void Main(string[] args)
         {
-            BigInteger a = new BigInteger("123718349137841934871");
+            BigInteger a = new BigInteger("123718349137841999999");
             a++;
             Console.WriteLine(a);
             Console.ReadKey();
