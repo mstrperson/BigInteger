@@ -17,6 +17,8 @@ namespace BigInteger
         protected List<char> Value;
         public int Base { get; protected set; }
 
+
+
         /// <summary>
         /// Use a Loop to recombine the chars from the Value property to print the
         /// Big integer in human readable form. 
@@ -26,7 +28,13 @@ namespace BigInteger
         /// <returns></returns>
         public override string ToString()
         {
-            throw new NotImplementedException();
+            String a = "";
+            for (int i = Value.Count() - 1; i > -1; i-- )
+            {
+                a += Value[i];
+            }
+
+            return a;
         }
 
         /// <summary>
@@ -54,6 +62,7 @@ namespace BigInteger
         public BigInteger(String stringRepresentation, int number_base = 10)
         {
             Base = number_base;
+            Value = stringRepresentation.Reverse().ToList();
         }
 
         /// <summary>
@@ -115,7 +124,31 @@ namespace BigInteger
         /// <returns>a=a+1</returns>
         public static BigInteger operator ++(BigInteger a)
         {
-            return new BigInteger();
+            // Note from Cox:  So we have to restructure this loop just a little bit because of the way
+            // for loops work.  It checks the condition before ever executing, so it is never executing right now.
+            int i = 0;
+
+            // Using a do-while loop here, ensures that the loop executes at least once (so if no carrying is necessary, it still runs.)
+            do 
+            {
+				if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
+				{
+					a.Value[i] = '0';
+                    // This gets handled by the next itteration of the loop. so this line isn't needed.
+					//a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
+
+				}
+				else
+				{
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
+				}
+
+                // since we're not in a for loop anymore, we have to do the increment inside the method.
+                i++;
+            } while (i < a.Value.Count() && a.Value[i-1] == '0');  
+            // and because the i has already been incremented, we have to put a i-1 in the Value[] to look back and what we just changed
+
+            return a;
         }
 
         /// <summary>
@@ -128,7 +161,26 @@ namespace BigInteger
         /// <returns>a=a-1</returns>
         public static BigInteger operator --(BigInteger a)
         {
-            return new BigInteger();
+
+            int i = 0;
+
+            do
+            {
+                if (NUMERALS.IndexOf(a.Value[i]) == 0)
+                {
+                    a.Value[i] = '9';
+                }
+                else
+                {
+                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) - 1];
+                }
+
+                i++;
+            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
+
+
+            return a;
+
         }
 
         /// <summary>
