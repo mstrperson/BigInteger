@@ -135,23 +135,25 @@ namespace BigInteger
         public static BigInteger operator --(BigInteger a)
         {
 
-            // See if you can make this method look just like the ++ method.
+            int i = 0;
 
-			for (int i = 0; i < a.Value.Count() && a.Value[i] == 9; i++)
-			{
-				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
-				{
-					a.Value[i] = '0';
-					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
+            do
+            {
+                if (NUMERALS.IndexOf(a.Value[i]) == 0)
+                {
+                    a.Value[i] = '9';
+                }
+                else
+                {
+                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) - 1];
+                }
 
-				}
-				else
-				{
-					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
-				}
-			}
+                i++;
+            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
+
 
             return a;
+
         }
 
         /// <summary>
