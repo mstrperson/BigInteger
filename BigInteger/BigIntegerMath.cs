@@ -66,8 +66,14 @@ namespace BigInteger
         /// <returns></returns>
         public static bool IsEven(BigInteger a)
         {
-
-            return false;
+            if(NUMERALS.IndexOf(a.value[0]) % 2 == 1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
