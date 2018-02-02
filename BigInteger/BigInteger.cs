@@ -29,7 +29,7 @@ namespace BigInteger
         public override string ToString()
         {
             String a = "";
-            for (int i = Value.Count() - 1; i > -1; i-- )
+            for (int i = Value.Count() - 1; i > -1; i--)
             {
                 a += Value[i];
             }
@@ -87,33 +87,6 @@ namespace BigInteger
             throw new NotImplementedException();
         }
 
-        #region Automatically Generated methods.
-        /// <summary>
-        /// This method was automatically generated.  Ignore it for now.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            var integer = obj as BigInteger;
-            return integer != null &&
-                   EqualityComparer<List<char>>.Default.Equals(Value, integer.Value) &&
-                   Base == integer.Base;
-        }
-
-        /// <summary>
-        /// This method was automatically generated.  Ignore it.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            var hashCode = 826626034;
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<char>>.Default.GetHashCode(Value);
-            hashCode = hashCode * -1521134295 + Base.GetHashCode();
-            return hashCode;
-        }
-        #endregion
-
         /// <summary>
         /// Complete the Increment Opperator for BigIntegers.
         /// Recall the Increment Operator means Add 1 to 'a'
@@ -129,26 +102,40 @@ namespace BigInteger
             int i = 0;
 
             // Using a do-while loop here, ensures that the loop executes at least once (so if no carrying is necessary, it still runs.)
-            do 
+            do
             {
-				if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
-				{
-					a.Value[i] = '0';
+                if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
+                {
+                    a.Value[i] = '0';
                     // This gets handled by the next itteration of the loop. so this line isn't needed.
-					//a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
+                    //a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
 
-				}
-				else
-				{
-					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
-				}
+                }
+                else
+                {
+                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
+                }
 
                 // since we're not in a for loop anymore, we have to do the increment inside the method.
                 i++;
-            } while (i < a.Value.Count() && a.Value[i-1] == '0');  
+            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
             // and because the i has already been incremented, we have to put a i-1 in the Value[] to look back and what we just changed
 
             return a;
+        }
+        
+        /// <summary>
+        /// Ms. Billingsley wanted the array index opperator, so I added this ;)
+        /// So, now you can say a[0] instead of a.Value[0]
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public char this[int i]
+        {
+            get
+            {
+                return this.Value[i];
+            }
         }
 
         /// <summary>
@@ -162,25 +149,23 @@ namespace BigInteger
         public static BigInteger operator --(BigInteger a)
         {
 
-            int i = 0;
+            // See if you can make this method look just like the ++ method.
 
-            do
-            {
-                if (NUMERALS.IndexOf(a.Value[i]) == 0)
-                {
-                    a.Value[i] = '9';
-                }
-                else
-                {
-                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) - 1];
-                }
+			for (int i = 0; i < a.Value.Count() && a.Value[i] == 9; i++)
+			{
+				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
+				{
+					a.Value[i] = '0';
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
 
-                i++;
-            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
-
+				}
+				else
+				{
+					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+				}
+			}
 
             return a;
-
         }
 
         /// <summary>
