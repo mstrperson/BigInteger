@@ -77,6 +77,46 @@ namespace BigInteger
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Add single digits as charachters, used in Addition.
+        /// </summary>
+        /// <param name="a">one character from the Numerals string</param>
+        /// <param name="b">another charcater from the Numerals String</param>
+        /// <param name="nBase">the Base of this Number for Addition.</param>
+        /// <param name="carry1">out flag for do I need to carry the one.</param>
+        /// <returns></returns>
+        protected static char AddSingleDigit(char a, char b, int nBase, out bool carry1)
+        {
+            int aVal = NUMERALS.IndexOf(a);  // Translate that written symbol into computer Integer value.
+            int bVal = NUMERALS.IndexOf(b);  // Reduces a level of abstraction.
+
+            // Check to make sure that this was actually a valid pair of values.
+            if(aVal >= nBase || aVal < 0 || bVal >= nBase || bVal < 0)
+            {
+                // Handle a potential error.
+                throw new ArgumentException("One of the characters is not valid.");
+            }
+
+            // numeric representation of a+b
+            int output = aVal + bVal;
+
+            // if the output is larger or equal to the Base,
+            // I need to Carry the one!
+            if (output >= nBase)
+            {
+                output -= nBase;
+                carry1 = true;
+            }
+            else
+            {
+                carry1 = false;
+            }
+
+            // translate the "number" back to a symbolic representation.
+            return NUMERALS[output];
+        }
+
         /// <summary>
         /// Implement the Comparable Interface for BigIntegers.
         /// </summary>
@@ -206,11 +246,12 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                
             }
             else
             {
-                // This can be Easy or Hard depending on how you approach it!
+                b.ChangeBase(a.Base);
+                return a + b;
             }
 
             return new BigInteger();
