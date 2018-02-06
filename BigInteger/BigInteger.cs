@@ -222,7 +222,61 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                #region Initialize Stuff
+                // Make sure that the arrays have the same size.
+
+                int length = Math.Max(a.Value.Count, b.Value.Count) + 1;
+                // thses are the arrays I will work with.
+                char[] x = new char[length]; // values of a
+                char[] y = new char[length]; // values of b
+                char[] sum = new char[length];
+
+                for(int i = 0; i < length; i++)
+                {
+                    if(i < a.Value.Count)
+                    {
+                        x[i] = a[i];
+                    }
+                    else
+                    {
+                        x[i] = NUMERALS[0];
+                    }
+                    // Fill the y array with the values from b;
+                    if(i  < b.Value.Count)
+                    {
+                        y[i] = b[i];
+                    }
+                    else
+                    {
+                        y[i] = NUMERALS[0];
+                    }
+                }
+                
+                #endregion  // Initialization Complete!
+
+                for(int i = 0; i < length; i++)
+                {
+                    bool carry1 = false;
+                    sum[i] = AddSingleDigit(x[i], y[i], a.Base, out carry1);
+                    //handle carrying the 1
+                    for (int j = i+1; carry1; j++)
+                    {
+                        x[j] = AddSingleDigit(x[j], NUMERALS[1], a.Base, out carry1);
+                    }
+                }
+
+                List<char> answerList = sum.ToList();
+                // Remove all leading zeros.
+                while(answerList.Last() == NUMERALS[0])
+                {
+                    // LIST is needed to use RemoveAt, this removes the last character (which is a 0).
+                    answerList.RemoveAt(answerList.Count - 1);
+                }
+                // Makes it human readable, which is what the BigInteger Constructor Expects.
+                answerList.Reverse();
+
+                BigInteger answer = new BigInteger(new String(answerList.ToArray()), a.Base);
+                return answer;
             }
             else
             {
