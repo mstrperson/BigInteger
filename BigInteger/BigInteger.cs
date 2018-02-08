@@ -123,6 +123,37 @@ namespace BigInteger
             return NUMERALS[output];
         }
 
+        protected static char SubtractSingleDigit(char a, char b, int nBase, out bool borrow1)
+        {
+            int aVal = NUMERALS.IndexOf(a);  // Translate that written symbol into computer Integer value.
+            int bVal = NUMERALS.IndexOf(b);  // Reduces a level of abstraction.
+
+            // Check to make sure that this was actually a valid pair of values.
+            if (aVal >= nBase || aVal < 0 || bVal >= nBase || bVal < 0)
+            {
+                // Handle a potential error.
+                throw new ArgumentException("One of the characters is not valid.");
+            }
+
+            // numeric representation of a+b
+            int output = aVal - bVal;
+
+            // if the output is larger or equal to the Base,
+            // I need to Carry the one!
+            if (output <= 0)
+            {
+                output += nBase;
+                borrow1 = true;
+            }
+            else
+            {
+                borrow1 = false;
+            }
+
+            // translate the "number" back to a symbolic representation.
+            return NUMERALS[output];
+        }
+
         /// <summary>
         /// Implement the Comparable Interface for BigIntegers.
         /// </summary>
