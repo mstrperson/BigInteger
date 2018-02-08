@@ -10,6 +10,7 @@ namespace BigInteger
     {
         static void Main(string[] args)
         {
+            //allows u to input a and b
             Console.WriteLine("Input first number");
             BigInteger a = new BigInteger(Console.ReadLine());
             Console.WriteLine("Input second number");
