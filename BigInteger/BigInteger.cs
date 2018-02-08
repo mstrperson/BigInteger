@@ -419,7 +419,47 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator <(BigInteger a, BigInteger b)
         {
+		if (a.Base == b.Base)
+            {
+                #region Initialize Stuff
+                // Make sure that the arrays have the same size.
 
+                int length = Math.Max(a.Value.Count, b.Value.Count) + 1;
+                // thses are the arrays I will work with.
+                char[] x = new char[length]; // values of a
+                char[] y = new char[length]; // values of b
+                char[] sum = new char[length];
+
+                for(int i = 0; i < length; i++)
+                {
+                    if(i < a.Value.Count)
+                    {
+                        x[i] = a[i];
+                    }
+                    else
+                    {
+                        x[i] = NUMERALS[0];
+                    }
+                    // Fill the y array with the values from b;
+                    if(i  < b.Value.Count)
+                    {
+                        y[i] = b[i];
+                    }
+                    else
+                    {
+                        y[i] = NUMERALS[0];
+                    }
+                }
+                
+		for(int i = length; )
+                #endregion  // Initialization Complete!
+
+               	
+            }
+            else
+            {
+                // This can be Easy or Hard depending on how you approach it!
+            }
             return false;
         }
 
