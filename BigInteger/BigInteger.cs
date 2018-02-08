@@ -29,7 +29,7 @@ namespace BigInteger
         public override string ToString()
         {
             String a = "";
-            for (int i = Value.Count() - 1; i > -1; i-- )
+            for (int i = Value.Count() - 1; i > -1; i--)
             {
                 a += Value[i];
             }
@@ -77,6 +77,46 @@ namespace BigInteger
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Add single digits as charachters, used in Addition.
+        /// </summary>
+        /// <param name="a">one character from the Numerals string</param>
+        /// <param name="b">another charcater from the Numerals String</param>
+        /// <param name="nBase">the Base of this Number for Addition.</param>
+        /// <param name="carry1">out flag for do I need to carry the one.</param>
+        /// <returns></returns>
+        protected static char AddSingleDigit(char a, char b, int nBase, out bool carry1)
+        {
+            int aVal = NUMERALS.IndexOf(a);  // Translate that written symbol into computer Integer value.
+            int bVal = NUMERALS.IndexOf(b);  // Reduces a level of abstraction.
+
+            // Check to make sure that this was actually a valid pair of values.
+            if(aVal >= nBase || aVal < 0 || bVal >= nBase || bVal < 0)
+            {
+                // Handle a potential error.
+                throw new ArgumentException("One of the characters is not valid.");
+            }
+
+            // numeric representation of a+b
+            int output = aVal + bVal;
+
+            // if the output is larger or equal to the Base,
+            // I need to Carry the one!
+            if (output >= nBase)
+            {
+                output -= nBase;
+                carry1 = true;
+            }
+            else
+            {
+                carry1 = false;
+            }
+
+            // translate the "number" back to a symbolic representation.
+            return NUMERALS[output];
+        }
+
         /// <summary>
         /// Implement the Comparable Interface for BigIntegers.
         /// </summary>
@@ -86,33 +126,6 @@ namespace BigInteger
         {
             throw new NotImplementedException();
         }
-
-        #region Automatically Generated methods.
-        /// <summary>
-        /// This method was automatically generated.  Ignore it for now.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            var integer = obj as BigInteger;
-            return integer != null &&
-                   EqualityComparer<List<char>>.Default.Equals(Value, integer.Value) &&
-                   Base == integer.Base;
-        }
-
-        /// <summary>
-        /// This method was automatically generated.  Ignore it.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            var hashCode = 826626034;
-            hashCode = hashCode * -1521134295 + EqualityComparer<List<char>>.Default.GetHashCode(Value);
-            hashCode = hashCode * -1521134295 + Base.GetHashCode();
-            return hashCode;
-        }
-        #endregion
 
         /// <summary>
         /// Complete the Increment Opperator for BigIntegers.
@@ -129,26 +142,40 @@ namespace BigInteger
             int i = 0;
 
             // Using a do-while loop here, ensures that the loop executes at least once (so if no carrying is necessary, it still runs.)
-            do 
+            do
             {
-				if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
-				{
-					a.Value[i] = '0';
+                if (NUMERALS.IndexOf(a.Value[i]) + 1 == a.Base)
+                {
+                    a.Value[i] = '0';
                     // This gets handled by the next itteration of the loop. so this line isn't needed.
-					//a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
+                    //a.Value[i+1] = NUMERALS[NUMERALS.IndexOf(a.Value[i+1]) + 1];
 
-				}
-				else
-				{
-					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
-				}
+                }
+                else
+                {
+                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) + 1];
+                }
 
                 // since we're not in a for loop anymore, we have to do the increment inside the method.
                 i++;
-            } while (i < a.Value.Count() && a.Value[i-1] == '0');  
+            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
             // and because the i has already been incremented, we have to put a i-1 in the Value[] to look back and what we just changed
 
             return a;
+        }
+        
+        /// <summary>
+        /// Ms. Billingsley wanted the array index opperator, so I added this ;)
+        /// So, now you can say a[0] instead of a.Value[0]
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public char this[int i]
+        {
+            get
+            {
+                return this.Value[i];
+            }
         }
 
         /// <summary>
@@ -162,25 +189,23 @@ namespace BigInteger
         public static BigInteger operator --(BigInteger a)
         {
 
-            int i = 0;
+            // See if you can make this method look just like the ++ method.
 
-            do
-            {
-                if (NUMERALS.IndexOf(a.Value[i]) == 0)
-                {
-                    a.Value[i] = '9';
-                }
-                else
-                {
-                    a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[i]) - 1];
-                }
+			for (int i = 0; i < a.Value.Count() && a.Value[i] == 9; i++)
+			{
+				if (NUMERALS.IndexOf(a.Value[0]) + 1 == a.Base)
+				{
+					a.Value[i] = '0';
+					a.Value[i] = NUMERALS[NUMERALS.IndexOf(a.Value[1]) + 1];
 
-                i++;
-            } while (i < a.Value.Count() && a.Value[i - 1] == '0');
-
+				}
+				else
+				{
+					a.Value[0] = NUMERALS[NUMERALS.IndexOf(a.Value[0]) + 1];
+				}
+			}
 
             return a;
-
         }
 
         /// <summary>
@@ -197,7 +222,61 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                #region Initialize Stuff
+                // Make sure that the arrays have the same size.
+
+                int length = Math.Max(a.Value.Count, b.Value.Count) + 1;
+                // thses are the arrays I will work with.
+                char[] x = new char[length]; // values of a
+                char[] y = new char[length]; // values of b
+                char[] sum = new char[length];
+
+                for(int i = 0; i < length; i++)
+                {
+                    if(i < a.Value.Count)
+                    {
+                        x[i] = a[i];
+                    }
+                    else
+                    {
+                        x[i] = NUMERALS[0];
+                    }
+                    // Fill the y array with the values from b;
+                    if(i  < b.Value.Count)
+                    {
+                        y[i] = b[i];
+                    }
+                    else
+                    {
+                        y[i] = NUMERALS[0];
+                    }
+                }
+                
+                #endregion  // Initialization Complete!
+
+                for(int i = 0; i < length; i++)
+                {
+                    bool carry1 = false;
+                    sum[i] = AddSingleDigit(x[i], y[i], a.Base, out carry1);
+                    //handle carrying the 1
+                    for (int j = i+1; carry1; j++)
+                    {
+                        x[j] = AddSingleDigit(x[j], NUMERALS[1], a.Base, out carry1);
+                    }
+                }
+
+                List<char> answerList = sum.ToList();
+                // Remove all leading zeros.
+                while(answerList.Last() == NUMERALS[0])
+                {
+                    // LIST is needed to use RemoveAt, this removes the last character (which is a 0).
+                    answerList.RemoveAt(answerList.Count - 1);
+                }
+                // Makes it human readable, which is what the BigInteger Constructor Expects.
+                answerList.Reverse();
+
+                BigInteger answer = new BigInteger(new String(answerList.ToArray()), a.Base);
+                return answer;
             }
             else
             {
@@ -221,11 +300,12 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                // this is a Moderate Achievement.
+                
             }
             else
             {
-                // This can be Easy or Hard depending on how you approach it!
+                b.ChangeBase(a.Base);
+                return a + b;
             }
 
             return new BigInteger();
