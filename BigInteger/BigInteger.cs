@@ -86,6 +86,12 @@ namespace BigInteger
         /// <param name="nBase">the Base of this Number for Addition.</param>
         /// <param name="carry1">out flag for do I need to carry the one.</param>
         /// <returns></returns>
+	
+	protected static char SubtractSingleDigit(char a, char b, int nBase, out bool borrow)
+	{
+		
+	}
+	
         protected static char AddSingleDigit(char a, char b, int nBase, out bool carry1)
         {
             int aVal = NUMERALS.IndexOf(a);  // Translate that written symbol into computer Integer value.
@@ -284,7 +290,7 @@ namespace BigInteger
             }
 
             return new BigInteger();
-        }
+        }i
 
         /// <summary>
         /// Complete the Subtraction operator for BigIntegers a and b.
@@ -300,7 +306,41 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                
+                int length = Math.Max(a.Value.Count, b.Value.Count) + 1;
+                // thses are the arrays I will work with.
+                char[] x = new char[length]; // values of a
+                char[] y = new char[length]; // values of b
+                char[] subNum = new char[length];
+		
+		if(x < y)
+		{
+			bool isNegative = true;
+		}
+		else
+		{
+			bool isNegative = false;
+		}
+		
+		for(int i = 0; i < length; i++)
+		{
+			if(i < a.Value.Count)
+                    {
+                        x[i] = a[i];
+                    }
+                    else
+                    {
+                        x[i] = NUMERALS[0];
+                    }
+                    // Fill the y array with the values from b;
+                    if(i  < b.Value.Count)
+                    {
+                        y[i] = b[i];
+                    }
+                    else
+                    {
+                        y[i] = NUMERALS[0];
+                    }
+		}
             }
             else
             {
