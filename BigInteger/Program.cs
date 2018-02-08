@@ -10,8 +10,10 @@ namespace BigInteger
     {
         static void Main(string[] args)
         {
-            BigInteger a = new BigInteger("321578");
-            BigInteger b = new BigInteger("5217318");
+            Console.WriteLine("Input first number");
+            BigInteger a = new BigInteger(Console.ReadLine());
+            Console.WriteLine("Input second number");
+            BigInteger b = new BigInteger(Console.ReadLine());
             Console.WriteLine(a+b);
             Console.ReadKey();
         }
