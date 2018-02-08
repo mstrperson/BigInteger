@@ -134,7 +134,7 @@ namespace BigInteger
 
             // if the output is larger or equal to the Base,
             // I need to Carry the one!
-            if (output <= 0)
+            if (output < 0)
             {
                 output += nBase;
                 borrow1 = true;
@@ -262,9 +262,9 @@ namespace BigInteger
                 char[] y = new char[length]; // values of b
                 char[] sum = new char[length];
 
-                for(int i = 0; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
-                    if(i < a.Value.Count)
+                    if (i < a.Value.Count)
                     {
                         x[i] = a[i];
                     }
@@ -273,7 +273,7 @@ namespace BigInteger
                         x[i] = NUMERALS[0];
                     }
                     // Fill the y array with the values from b;
-                    if(i  < b.Value.Count)
+                    if (i < b.Value.Count)
                     {
                         y[i] = b[i];
                     }
@@ -282,15 +282,15 @@ namespace BigInteger
                         y[i] = NUMERALS[0];
                     }
                 }
-                
+
                 #endregion  // Initialization Complete!
 
-                for(int i = 0; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     bool carry1 = false;
                     sum[i] = AddSingleDigit(x[i], y[i], a.Base, out carry1);
                     //handle carrying the 1
-                    for (int j = i+1; carry1; j++)
+                    for (int j = i + 1; carry1; j++)
                     {
                         x[j] = AddSingleDigit(x[j], NUMERALS[1], a.Base, out carry1);
                     }
@@ -298,7 +298,7 @@ namespace BigInteger
 
                 List<char> answerList = sum.ToList();
                 // Remove all leading zeros.
-                while(answerList.Last() == NUMERALS[0])
+                while (answerList.Last() == NUMERALS[0])
                 {
                     // LIST is needed to use RemoveAt, this removes the last character (which is a 0).
                     answerList.RemoveAt(answerList.Count - 1);
@@ -331,12 +331,97 @@ namespace BigInteger
         {
             if (a.Base == b.Base)
             {
-                
+                #region Initialize Stuff
+                // Make sure that the arrays have the same size.
+
+                int length = Math.Max(a.Value.Count, b.Value.Count) + 1;
+                // thses are the arrays I will work with.
+                char[] x = new char[length]; // values of a
+                char[] y = new char[length]; // values of b
+                char[] difference = new char[length];
+
+                if (a > b)
+                {
+                    for (int i = 0; i < length; i++)
+                    {
+                        if (i < a.Value.Count)
+                        {
+                            x[i] = a[i];
+                        }
+                        else
+                        {
+                            x[i] = NUMERALS[0];
+                        }
+                        // Fill the y array with the values from b;
+                        if (i < b.Value.Count)
+                        {
+                            y[i] = b[i];
+                        }
+                        else
+                        {
+                            y[i] = NUMERALS[0];
+                        }
+                    }
+                }
+                else if (a < b)
+                {
+                    for (int i = 0; i < length; i++)
+                    {
+                        if (i < a.Value.Count)
+                        {
+                            x[i] = b[i];
+                        }
+                        else
+                        {
+                            x[i] = NUMERALS[0];
+                        }
+                        // Fill the y array with the values from b;
+                        if (i < b.Value.Count)
+                        {
+                            y[i] = a[i];
+                        }
+                        else
+                        {
+                            y[i] = NUMERALS[0];
+                        }
+                    }
+                }
+                else
+                {
+                    return new BigInteger("0", a.Base);
+                }
+
+
+                #endregion  // Initialization Complete!
+
+                for (int i = 0; i < length; i++)
+                {
+                    bool borrow1 = false;
+                    difference[i] = SubtractSingleDigit(x[i], y[i], a.Base, out borrow1);
+                    //handle carrying the 1
+                    for (int j = i + 1; borrow1; j++)
+                    {
+                        x[j] = SubtractSingleDigit(x[j], NUMERALS[1], a.Base, out borrow1);
+                    }
+                }
+
+                List<char> answerList = difference.ToList();
+                // Remove all leading zeros.
+                while (answerList.Last() == NUMERALS[0])
+                {
+                    // LIST is needed to use RemoveAt, this removes the last character (which is a 0).
+                    answerList.RemoveAt(answerList.Count - 1);
+                }
+                // Makes it human readable, which is what the BigInteger Constructor Expects.
+                answerList.Reverse();
+
+                BigInteger answer = new BigInteger(new String(answerList.ToArray()), a.Base);
+                return answer;
             }
             else
             {
                 b.ChangeBase(a.Base);
-                return a + b;
+                return a - b;
             }
 
             return new BigInteger();
@@ -424,9 +509,30 @@ namespace BigInteger
         /// <returns></returns>
         public static bool operator >(BigInteger a, BigInteger b)
         {
+            if (a.Base == b.Base)
+            {
+                if (a.Value.Count != b.Value.Count) return a.Value.Count > b.Value.Count;
 
+                else
+                {
+                    for (var i = a.Value.Count - 1; i > 0; i--)
+                    {
+                        int x = NUMERALS.IndexOf(a.Value[i]);
+                        int y = NUMERALS.IndexOf(b.Value[i]);
+                        if (x > y) return true;
+                        else if (x < y) return false;
+                    }
+                }
+
+            }
+            else
+            {
+                b.ChangeBase(a.Base);
+                return a > b;
+            }
             return false;
         }
+
 
         /// <summary>
         /// Complete the less than or equal operator for Big Integers
