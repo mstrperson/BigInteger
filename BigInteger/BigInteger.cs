@@ -91,7 +91,7 @@ namespace BigInteger
         /// Complete the Increment Opperator for BigIntegers.
         /// Recall the Increment Operator means Add 1 to 'a'
         /// 
-        /// This is an Easy achievement.
+        /// This is a very hard achievement that Sarah wrote. 
         /// </summary>
         /// <param name="a">BigInteger to be incremented.</param>
         /// <returns>a=a+1</returns>
@@ -128,7 +128,7 @@ namespace BigInteger
         /// Complete the Decrement Opperator for BigIntegers.
         /// Recall the decrement Operator means subract 1 to 'a'
         /// 
-        /// This is an Easy achievement.
+        /// This is a very hard achievement that Sarah has accomplished. 
         /// </summary>
         /// <param name="a">BigInteger to be decremented.</param>
         /// <returns>a=a-1</returns>
