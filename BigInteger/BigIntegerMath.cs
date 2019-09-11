@@ -66,7 +66,6 @@ namespace BigInteger
         /// <returns></returns>
         public static bool IsEven(BigInteger a)
         {
-
             return false;
         }
 
